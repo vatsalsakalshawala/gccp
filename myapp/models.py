@@ -1,5 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, User
+
+from djangoProject1 import settings
+
 
 # User Model
 class CustomUser(AbstractUser):
@@ -45,6 +48,7 @@ class ProductReview(models.Model):
 
 class Recipe(models.Model):
     title = models.CharField(max_length=200)
+    image = models.ImageField(upload_to='recipes/')
     ingredients = models.TextField()
     instructions = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -128,3 +132,30 @@ class TeamMember(models.Model):
 
     def __str__(self):
         return self.name
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    bio = models.TextField(blank=True)
+    location = models.CharField(max_length=100, blank=True)
+    birth_date = models.DateField(null=True, blank=True)
+    profile_picture = models.ImageField(upload_to='profile_pics/', blank=True)
+
+    def __str__(self):
+        return self.user.username
+
+class Post(models.Model):
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    image = models.TextField()
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+class Photo(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='photos/')
+
+    def __str__(self):
+        return f"Photo by {self.user.username}"
