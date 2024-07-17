@@ -55,7 +55,6 @@ coverage.xml
 .hypothesis/
 
 # Django static and media files
-static/
 media/
 
 # Celery

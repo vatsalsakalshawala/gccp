@@ -1,0 +1,32 @@
+footer {
+    background-color: #4CAF50; /* Green background */
+    padding: 20px 0;
+    text-align: center;
+}
+
+.social-icons {
+    list-style-type: none;
+    padding: 0;
+}
+
+.social-icons li {
+    display: inline;
+    margin: 0 15px;
+}
+
+.social-icons a {
+    text-decoration: none;
+    color: #FFEB3B; /* Yellow for contrast */
+    font-weight: bold;
+}
+
+.social-icons a:hover {
+    text-decoration: underline;
+    color: #FFF; /* White on hover */
+}
+
+.copyright-text {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #FFFFFF; /* White text */
+}
