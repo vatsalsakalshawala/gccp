@@ -4,6 +4,9 @@ from django.contrib.auth.models import AbstractUser, User
 from djangoProject1 import settings
 
 
+# from  from  settings
+
+
 # User Model
 class CustomUser(AbstractUser):
     bio = models.TextField(blank=True)

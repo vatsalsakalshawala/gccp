@@ -3,7 +3,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import UserProfile, Post, Comment, Rating, Photo, Recipe
-from .forms import PostForm, CommentForm, RatingForm, PhotoForm, RecipeForm
+from .forms import PostForm, CommentForm, RatingForm, PhotoForm, RecipeForm, UserProfileForm
+
 
 def home(request):
     posts = Post.objects.all().order_by('-created_at')

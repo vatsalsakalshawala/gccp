@@ -1,17 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Home</title>
-</head>
-<body>
-    <h1>Welcome to the Green Guide Community Portal</h1>
-    <div>
-        <h2>Posts</h2>
-        {% for post in posts %}
-            <h3><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h3>
-            <p>{{ post.content|truncatewords:30 }}</p>
-        {% endfor %}
+{% extends 'myapp/base.html' %}
+
+{% block title %}Home - Django Blog{% endblock %}
+
+{% block content %}
+    <div class="welcome-paragraph">
+        <p>Welcome to our blog! Here you will find a variety of posts covering different topics. Enjoy your reading!</p>
     </div>
-</body>
-</html>
+
+    {% for post in posts %}
+    <div class="post">
+        <div class="post-title">
+            <a href="#">{{ post.title }}</a>
+        </div>
+        <div class="post-content">
+            {{ post.content|truncatewords:30 }}
+        </div>
+        <div class="post-footer">
+            Posted by {{ post.author.username }} on {{ post.created_at|date:"F j, Y" }}
+        </div>
+    </div>
+    {% endfor %}
+{% endblock %}
