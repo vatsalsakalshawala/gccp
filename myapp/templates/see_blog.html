@@ -6,7 +6,7 @@
 <section class="mt-5 pt-5">
     <div class="container">
        
-        <table class="table">
+        <table class="table" style="align-items: center">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -22,8 +22,8 @@
             <td>{{blog.title}}</td>
             <td>{{blog.created_at}}</td>
             <td>
-                <a href="{%  url 'blog_update' blog.slug %}" class="btn btn-success">Update</a>
-                <a href="{% url 'blog_delete' blog.id %}" class="btn btn-danger">Delete</a>
+                <a href="{%  url 'blog_update' blog.slug %}" class="btn btn-outline-success">Update</a>
+                <a href="{% url 'blog_delete' blog.id %}" class="btn btn-outline-danger">Delete</a>
 
 
             </td>

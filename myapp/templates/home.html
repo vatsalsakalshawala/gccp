@@ -1,14 +1,20 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block start %}
 <section class="position-relative py-6">
-    <img class="bg-image" src="https://images.pexels.com/photos/1761279/pexels-photo-1761279.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="">
+    <img class="bg-image" src="{% static 'p.jpg' %}" alt="">
     <div class="container">
       <div class="row">
+          <div class="col-lg-6"></div>
         <div class="col-lg-6">
           <div class="bg-white rounded-lg shadow p-5"><strong class="text-uppercase text-secondary d-inline-block mb-2 text-sm">Featured</strong>
             <h2 class="mb-3">Escape the city today</h2>
-            <p class="text-muted">As am hastily invited settled at limited civilly fortune me. Really spring in extent an by. Judge but built party world. Of so am he remember although required. Bachelor unpacked be advanced at. Confined in declared marianne is vicinity</p><a class="btn btn-link p-0" href="post.html">Continue reading <i class="fa fa-long-arrow-alt-right"></i></a>
+            <div class="">
+    <p class="text-muted">
+        Welcome to our vibrant community! Here, your voice matters and your stories can make a difference. Share your insights, experiences, and passions with others. Whether you have inspiring ideas or simply want to connect with like-minded individuals, this is the place to be. Dive into our collection of blog posts or be the next to contribute and shape our growing community. Your contribution could be the spark that inspires someone else!
+    </p>
+    <a class="btn btn-link p-0" href="{% url 'add_blog' %}">Share Your Story <i class="fa fa-long-arrow-alt-right"></i></a>
+</div>
           </div>
         </div>
       </div>
