@@ -1,18 +1,35 @@
+# views.py
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.utils import timezone
 from django.shortcuts import render, redirect
+from django.db.models import Q
+from .models import BlogModel, Comment, Profile
+from django.contrib.auth import logout, login, authenticate
+from django.contrib.auth.decorators import login_required
+from .form import BlogForm
+from django.http import HttpResponseForbidden
 
-# Create your views here.
-
-from .form import *
-from django.contrib.auth import logout
-from .models import BlogModel
 
 def logout_view(request):
     logout(request)
     return redirect('/')
 
+
 def home(request):
-    blogs = BlogModel.objects.all()
+    posts_per_page = 6
+    page_number = request.GET.get('page', 1)
+    all_blogs = BlogModel.objects.all().order_by('-created_at')
+    paginator = Paginator(all_blogs, posts_per_page)
+
+    try:
+        blogs = paginator.page(page_number)
+    except PageNotAnInteger:
+        blogs = paginator.page(1)
+    except EmptyPage:
+        blogs = paginator.page(paginator.num_pages)
+
     return render(request, 'home.html', {'blogs': blogs})
+
 
 def login_view(request):
     return render(request, 'login.html')
@@ -22,12 +39,27 @@ def blog_detail(request, slug):
     context = {}
     try:
         blog_obj = BlogModel.objects.filter(slug=slug).first()
+        comments = Comment.objects.filter(blog=blog_obj).order_by('-created_at')
         context['blog_obj'] = blog_obj
+        context['comments'] = comments
+
+        if request.method == 'POST':
+            if not request.user.is_authenticated:
+                return redirect('login_view')
+
+            profile = Profile.objects.get(user=request.user)
+            if not profile.is_verified:
+                return HttpResponseForbidden('You need to verify your account to comment.')
+
+            content = request.POST.get('content')
+            Comment.objects.create(blog=blog_obj, user=request.user, content=content)
+            return redirect('blog_detail', slug=slug)
     except Exception as e:
         print(e)
     return render(request, 'blog_detail.html', context)
 
 
+@login_required
 def see_blog(request):
     context = {}
 
@@ -37,29 +69,26 @@ def see_blog(request):
     except Exception as e:
         print(e)
 
-    print(context)
     return render(request, 'see_blog.html', context)
 
 
+@login_required
 def add_blog(request):
     context = {'form': BlogForm}
     try:
         if request.method == 'POST':
             form = BlogForm(request.POST)
-            print(request.FILES)
             image = request.FILES.get('image', '')
             title = request.POST.get('title')
             user = request.user
 
             if form.is_valid():
-                print('Valid')
                 content = form.cleaned_data['content']
 
             blog_obj = BlogModel.objects.create(
                 user=user, title=title,
                 content=content, image=image
             )
-            print(blog_obj)
             return redirect('/add-blog/')
     except Exception as e:
         print(e)
@@ -67,10 +96,10 @@ def add_blog(request):
     return render(request, 'add_blog.html', context)
 
 
+@login_required
 def blog_update(request, slug):
     context = {}
     try:
-
         blog_obj = BlogModel.objects.get(slug=slug)
 
         if blog_obj.user != request.user:
@@ -80,7 +109,6 @@ def blog_update(request, slug):
         form = BlogForm(initial=initial_dict)
         if request.method == 'POST':
             form = BlogForm(request.POST)
-            print(request.FILES)
             image = request.FILES['image']
             title = request.POST.get('title')
             user = request.user
@@ -101,13 +129,13 @@ def blog_update(request, slug):
     return render(request, 'update_blog.html', context)
 
 
+@login_required
 def blog_delete(request, id):
     try:
         blog_obj = BlogModel.objects.get(id=id)
 
         if blog_obj.user == request.user:
             blog_obj.delete()
-
     except Exception as e:
         print(e)
 
@@ -131,3 +159,23 @@ def verify(request, token):
         print(e)
 
     return redirect('/')
+
+
+def header(request):
+    return render(request, 'header.html')
+
+
+def search_view(request):
+    query = request.GET.get('query', '')
+    if query:
+        blogs = BlogModel.objects.filter(
+            Q(title__icontains=query) | Q(user__username__icontains=query)
+        )
+    else:
+        blogs = BlogModel.objects.all()
+
+    context = {
+        'blogs': blogs,
+        'query': query
+    }
+    return render(request, 'search_results.html', context)

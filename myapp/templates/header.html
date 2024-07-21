@@ -1,7 +1,7 @@
+<!-- header.html -->
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Mirrored from demo.bootstrapious.com/directory/1-6-1/blog.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 17 Apr 2021 09:21:30 GMT -->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -23,7 +23,8 @@
     <link rel="stylesheet" href="/media/css/default.css" id="theme-stylesheet">
     <!-- Custom stylesheet - for your changes-->
     <link rel="stylesheet" href="/media/css/custom.css">
-    <script src="/media/js/main.js"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 
 <body style="padding-top: 72px;">
@@ -47,14 +48,26 @@
                             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
                             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                         </form>
-
+                        {% if request.user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{request.user.username}}
+                            </a>
+{#                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">#}
+{#                                <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>#}
+{#                            </div>#}
+                        </li>
                         <li class="nav-item mt-3 mt-lg-0 ml-lg-3 d-lg-none d-xl-inline-block">
                             <a class="btn btn-success" href="{% url 'add_blog' %}">Add Blogs</a>
                         </li>
                         <li class="nav-item mt-3 mt-lg-0 ml-lg-3 d-lg-none d-xl-inline-block">
                             <a class="btn btn-danger" href="{% url 'logout_view' %}">Logout</a>
                         </li>
-
+                        {% else %}
+                        <li class="nav-item mt-3 mt-lg-0 ml-lg-3 d-lg-none d-xl-inline-block">
+                            <a class="btn btn-primary" href="{% url 'login_view' %}">Login</a>
+                        </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
@@ -76,6 +89,12 @@
             </div>
         </div>
     </footer>
+
+    <!-- jQuery, Popper.js, and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="/media/js/main.js"></script>
 </body>
 
 </html>
