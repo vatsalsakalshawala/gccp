@@ -47,14 +47,18 @@
                             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
                             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                         </form>
-
+                        {% if request.user.is_authenticated %}
                         <li class="nav-item mt-3 mt-lg-0 ml-lg-3 d-lg-none d-xl-inline-block">
                             <a class="btn btn-success" href="{% url 'add_blog' %}">Add Blogs</a>
                         </li>
                         <li class="nav-item mt-3 mt-lg-0 ml-lg-3 d-lg-none d-xl-inline-block">
                             <a class="btn btn-danger" href="{% url 'logout_view' %}">Logout</a>
                         </li>
-
+                        {% else %}
+                        <li class="nav-item mt-3 mt-lg-0 ml-lg-3 d-lg-none d-xl-inline-block">
+                            <a class="btn btn-primary" href="{% url 'login_view' %}">Login</a>
+                        </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
@@ -69,7 +73,7 @@
         <div class="py-4 font-weight-light bg-gray-800 text-gray-300">
             <div class="container">
                 <div class="row align-items-center">
-                    <div class="col-md-6 text-center text-md-left">
+                    <div class="col-md-6 text-center text-md-center">
                         <p class="text-sm mb-md-0">&copy; 2024, Group-14. All rights reserved.</p>
                     </div>
                 </div>
