@@ -1,27 +1,17 @@
-<!-- search_results.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Search Results</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-    <div class="container mt-5">
-        <h2>Search Results for "{{ query }}"</h2>
-        <ul class="list-group mt-3">
-            {% for blog in blogs %}
-                <li class="list-group-item">
-                    <h5><a href="{% url 'blog_detail' blog.slug %}">{{ blog.title }}</a></h5>
-                    <p>by {{ blog.user.username }}</p>
-                </li>
-            {% empty %}
-                <li class="list-group-item">No results found</li>
-            {% endfor %}
-        </ul>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Search Results for "{{ query }}"</h2>
+    <ul class="list-group mt-3">
+        {% for blog in blogs %}
+            <li class="list-group-item">
+                <h5><a href="{% url 'blog_detail' blog.slug %}">{{ blog.title }}</a></h5>
+                <p>by {{ blog.user.username }}</p>
+            </li>
+        {% empty %}
+            <li class="list-group-item">No results found</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
