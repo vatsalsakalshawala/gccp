@@ -16,10 +16,10 @@ urlpatterns = [
     path('logout-view/', logout_view, name="logout_view"),
     path('verify/<token>/', verify, name="verify"),
     path('header/', header, name="header"),
-    path('base1/', base1, name="base1"),
+    # path('base1/', base1, name="base1"),
 
     # path('profile/', profile_view, name='profile'),
-    path('search/', search_view, name='search'),  # New search URL pattern
+    path('search/', search_view, name='search'),
     path('contact/', contact_view, name='contact_view'),
     path('contact_success/', contact_success, name='contact_success'),   
     path('reset_password/', auth_views.PasswordResetView.as_view(template_name="password_reset.html"),name='reset_password'),

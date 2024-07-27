@@ -184,26 +184,6 @@ def search_view(request):
     return render(request, 'search_results.html', context)
 
 
-# @csrf_exempt
-# def contact_view(request):
-#     if request.method == 'POST':
-#         data = json.loads(request.body)
-#         form = ContactForm(data)
-#
-#         if form.is_valid():
-#             contact = form.save()  # This should save the contact to the database
-#             return JsonResponse({'status': 'success', 'message': 'Your message has been submitted successfully!'}, status=201)
-#         else:
-#             return JsonResponse({'error': form.errors}, status=400)
-#
-#     # Handle GET request and render the contact page
-#     form = ContactForm()  # Create an empty form instance
-#     return render(request, 'contact.html', {'form': form})
-#
-# def contact_success(request):
-#     return render(request, 'contact_success.html')
-
-
 def contact_view(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
@@ -219,39 +199,6 @@ def contact_view(request):
 
 def contact_success(request):
     return render(request, 'contact_success.html')
-
-def base1(request):
-    return render(request, 'base1.html')
-
-
-# def login_view(request):
-#     if request.method == 'POST':
-#         username = request.POST.get('loginUsername')
-#         password = request.POST.get('loginPassword')
-#         user = authenticate(request, username=username, password=password)
-#         if user is not None:
-#             login(request, user)
-            
-#             # Get the current login time
-#             current_login_time = timezone.now().isoformat()
-            
-#             # Get previous sessions from cookies
-#             login_sessions = request.COOKIES.get('login_sessions', '[]')
-#             login_sessions = json.loads(login_sessions)
-            
-#             # Add the current session to the list
-#             login_sessions.append(current_login_time)
-            
-#             # Keep only the last 4 sessions
-#             login_sessions = login_sessions[-4:]
-            
-#             # Set the cookie
-#             response = redirect('home')  # or wherever you want to redirect after login
-#             response.set_cookie('login_sessions', json.dumps(login_sessions), max_age=30*24*60*60)  # Cookie expires in 30 days
-            
-#             return response
-
-#     return render(request, 'login.html')
 
 @login_required
 def profile_view(request):
