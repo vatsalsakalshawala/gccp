@@ -54,6 +54,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # 'myapp.middleware.RecentActivityMiddleware',
     # 'myapp.middleware.PageVisitMiddleware',
+
+    'myapp.middleware.LoginTimeMiddleware',
 ]
 
 # MIDDLEWARE = [

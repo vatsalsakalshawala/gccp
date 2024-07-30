@@ -34,7 +34,24 @@ def home(request):
     return render(request, 'home.html', {'blogs': all_blogs})
 
 
+# def login_view(request):
+#     return render(request, 'login.html')
+
 def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['loginUsername']
+        password = request.POST['loginPassword']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            login_time = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
+            request.session['login_time'] = login_time
+            response = redirect('home')
+            response.set_cookie('login_time', login_time, max_age=3600)  # Cookie expires in 1 hour
+            return response
+        else:
+            return render(request, 'login.html', {'error': 'Invalid username or password'})
+
     return render(request, 'login.html')
 
 
