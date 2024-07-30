@@ -31,7 +31,7 @@ def home(request):
     except EmptyPage:
         blogs = paginator.page(paginator.num_pages)
 
-    return render(request, 'home.html', {'blogs': blogs})
+    return render(request, 'home.html', {'blogs': all_blogs})
 
 
 def login_view(request):
